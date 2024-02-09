@@ -2,7 +2,8 @@
 CSC3916 HW2
 File: Server.js
 Description: Web API scaffolding for Movie API
- */
+Command for launching! "node -r dotenv/config server.js"
+*/
 
 var express = require('express');
 var http = require('http');
@@ -91,9 +92,62 @@ router.route('/testcollection')
         }
         var o = getJSONObjectForMovieRequirement(req);
         res.json(o);
-    }
-    );
-    
+    });
+    router.route('/movies')
+        .get((req, res) => {
+        // Returns a JSON object with status, message, headers, query, and env
+        const responseObject = {
+            status: 200,
+            message: 'GET movies',
+            headers: req.headers,
+            query: req.query,
+            env: process.env.UNIQUE_KEY // Your unique key
+        };
+        res.json(responseObject);
+    })
+    .post((req, res) => {
+        // Returns a JSON object with status, message, headers, query, and env
+        const responseObject = {
+            status: 200,
+            message: 'movie saved',
+            headers: req.headers,
+            query: req.query,
+            env: process.env.UNIQUE_KEY // Your unique key
+        };
+            res.json(responseObject);
+    })
+    .put(authJwtController.isAuthenticated, (req, res) => {
+        // HTTP PUT Method
+        // Requires JWT authentication.
+        // Returns a JSON object with status, message, headers, query, and env.
+        const responseObject = {
+            status: 200,
+            message: 'movie updated',
+            headers: req.headers,
+            query: req.query,
+            env: process.env.UNIQUE_KEY 
+        };
+        res.json(responseObject);
+    })
+    .delete(authController.isAuthenticated, (req, res) => {
+        // HTTP DELETE Method
+        // Requires Basic authentication.
+        // Returns a JSON object with status, message, headers, query, and env.
+        const responseObject = {
+            status: 200,
+            message: 'movie deleted',
+            headers: req.headers,
+            query: req.query,
+            env: process.env.UNIQUE_KEY 
+        };
+        res.json(responseObject);
+    })
+    .all((req, res) => {
+        // Any other HTTP Method
+        // Returns a message stating that the HTTP method is unsupported.
+        res.status(405).send({ message: 'HTTP method not supported.' });
+    });
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
