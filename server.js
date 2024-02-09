@@ -95,18 +95,16 @@ router.route('/testcollection')
     });
     router.route('/movies')
         .get((req, res) => {
-        // Returns a JSON object with status, message, headers, query, and env
         const responseObject = {
             status: 200,
             message: 'GET movies',
             headers: req.headers,
             query: req.query,
-            env: process.env.UNIQUE_KEY // Your unique key
+            env: process.env.UNIQUE_KEY 
         };
         res.json(responseObject);
     })
     .post((req, res) => {
-        // Returns a JSON object with status, message, headers, query, and env
         const responseObject = {
             status: 200,
             message: 'movie saved',
@@ -117,9 +115,6 @@ router.route('/testcollection')
             res.json(responseObject);
     })
     .put(authJwtController.isAuthenticated, (req, res) => {
-        // HTTP PUT Method
-        // Requires JWT authentication.
-        // Returns a JSON object with status, message, headers, query, and env.
         const responseObject = {
             status: 200,
             message: 'movie updated',
@@ -130,9 +125,6 @@ router.route('/testcollection')
         res.json(responseObject);
     })
     .delete(authController.isAuthenticated, (req, res) => {
-        // HTTP DELETE Method
-        // Requires Basic authentication.
-        // Returns a JSON object with status, message, headers, query, and env.
         const responseObject = {
             status: 200,
             message: 'movie deleted',
@@ -143,8 +135,6 @@ router.route('/testcollection')
         res.json(responseObject);
     })
     .all((req, res) => {
-        // Any other HTTP Method
-        // Returns a message stating that the HTTP method is unsupported.
         res.status(405).send({ message: 'HTTP method not supported.' });
     });
 
