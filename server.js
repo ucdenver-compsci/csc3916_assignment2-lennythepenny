@@ -3,6 +3,13 @@ CSC3916 HW2
 File: Server.js
 Description: Web API scaffolding for Movie API
 Command for launching! "node -r dotenv/config server.js"
+If need to install:
+npm install express
+npm install http
+npm install body-parser
+npm install passport
+npm install cors
+npm install jsonwebtoken
 */
 
 var express = require('express');
@@ -94,45 +101,31 @@ router.route('/testcollection')
         res.json(o);
     });
     router.route('/movies')
-        .get((req, res) => {
-        const responseObject = {
-            status: 200,
-            message: 'GET movies',
-            headers: req.headers,
-            query: req.query,
-            env: process.env.UNIQUE_KEY 
-        };
-        res.json(responseObject);
+    .get((req, res) => {
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = 'GET movies';
+        res.json(o);
     })
     .post((req, res) => {
-        const responseObject = {
-            status: 200,
-            message: 'movie saved',
-            headers: req.headers,
-            query: req.query,
-            env: process.env.UNIQUE_KEY // Your unique key
-        };
-            res.json(responseObject);
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = 'movie saved';
+        res.json(o);
     })
     .put(authJwtController.isAuthenticated, (req, res) => {
-        const responseObject = {
-            status: 200,
-            message: 'movie updated',
-            headers: req.headers,
-            query: req.query,
-            env: process.env.UNIQUE_KEY 
-        };
-        res.json(responseObject);
+        //JWT Authentication
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = 'movie updated';
+        res.json(o);
     })
     .delete(authController.isAuthenticated, (req, res) => {
-        const responseObject = {
-            status: 200,
-            message: 'movie deleted',
-            headers: req.headers,
-            query: req.query,
-            env: process.env.UNIQUE_KEY 
-        };
-        res.json(responseObject);
+        //Basic Authentication
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = 'movie deleted';
+        res.json(o);
     })
     .all((req, res) => {
         res.status(405).send({ message: 'HTTP method not supported.' });
