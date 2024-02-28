@@ -51,7 +51,7 @@ function getJSONObjectForMovieRequirement(req) {
 
 router.post('/signup', (req, res) => {
     if (!req.body.username || !req.body.password) {
-        res.json({success: false, msg: 'Please include both username and password to signup.'})
+        res.status(400).json({success: false, msg: 'Please include both username and password to signup.'}); // Change status code to 400
     } else {
         var newUser = {
             username: req.body.username,
@@ -127,10 +127,6 @@ router.route('/testcollection')
         o.message = 'movie deleted';
         res.json(o);
     })
-    .all((req, res) => {
-        res.status(405).send({ message: 'HTTP method not supported.' });
-    });
-
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
